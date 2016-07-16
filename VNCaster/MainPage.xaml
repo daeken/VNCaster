@@ -7,7 +7,111 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="{ThemeResource SystemChromeHighColor}"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <AppBarButton x:Name="connectButton" HorizontalAlignment="Right" Icon="Go" Label="Connect" VerticalAlignment="Center" Width="100" Grid.Column="0">
+                <AppBarButton.Foreground>
+                    <SolidColorBrush Color="{ThemeResource SystemBaseHighColor}"/>
+                </AppBarButton.Foreground>
+            </AppBarButton>
+            <AppBarButton x:Name="addButton" HorizontalAlignment="Right" Icon="Add" Label="Add" VerticalAlignment="Center" Width="100" Grid.Column="1" Click="addButton_Click">
+                <AppBarButton.Foreground>
+                    <SolidColorBrush Color="{ThemeResource SystemBaseHighColor}"/>
+                </AppBarButton.Foreground>
+            </AppBarButton>
+        </StackPanel>
+        <SplitView Name="AddPane" Grid.Row="1" PanePlacement="Right">
+            <SplitView.Pane>
+                <StackPanel Margin="0" Padding="10,0">
+                    <StackPanel.Background>
+                        <SolidColorBrush Color="{ThemeResource SystemChromeHighColor}"/>
+                    </StackPanel.Background>
+                    <TextBlock x:Name="addHeader" TextWrapping="Wrap" Text="Placeholder" FontSize="36">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeAltLowColor}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBlock x:Name="textBlock0" TextWrapping="Wrap" Text="Alias" FontSize="26" Margin="0,20,0,10">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeAltLowColor}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBox x:Name="add_alias" TextWrapping="Wrap" Text="" FontSize="26" PlaceholderText="Alias (optional)"/>
+                    <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="Hostname" FontSize="26" Margin="0,20,0,10">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeAltLowColor}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBox x:Name="add_hostname" TextWrapping="Wrap" Text="" FontSize="26" PlaceholderText="Hostname or IP address"/>
+                    <TextBlock x:Name="textBlock2" TextWrapping="Wrap" Text="Port number" FontSize="26" Margin="0,20,0,10">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeAltLowColor}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                    <TextBox x:Name="add_port" TextWrapping="Wrap" Text="5900" FontSize="26" PlaceholderText="Port number"/>
+                    <TextBlock x:Name="textBlock3" TextWrapping="Wrap" Text="Password for VNC auth" FontSize="26" Margin="0,20,0,10">
+                        <TextBlock.Foreground>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeAltLowColor}"/>
+                        </TextBlock.Foreground>
+                    </TextBlock>
+                    <PasswordBox x:Name="add_password" FontSize="26" PlaceholderText="Password (optional)" MaxLength="8"/>
+                    <Button x:Name="add_save" Content="Save" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0,20,0,0" FontSize="26" IsEnabled="False" Click="add_save_Click">
+                        <Button.Foreground>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeAltLowColor}"/>
+                        </Button.Foreground>
+                        <Button.Background>
+                            <SolidColorBrush Color="{ThemeResource SystemListMediumColor}"/>
+                        </Button.Background>
+                    </Button>
+                </StackPanel>
+            </SplitView.Pane>
+            <SplitView.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Name="DefaultText" Orientation="Vertical" Grid.Column="0">
+                        <StackPanel.Background>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}"/>
+                        </StackPanel.Background>
+                        <TextBlock Text="Welcome to VNCaster!" FontSize="48" Margin="20,0,0,0">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{ThemeResource SystemBaseHighColor}"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                        <TextBlock Text="To get started, add or connect to a host." FontSize="38" Margin="50,30,0,0">
+                            <TextBlock.Foreground>
+                                <SolidColorBrush Color="{ThemeResource SystemBaseHighColor}"/>
+                            </TextBlock.Foreground>
+                        </TextBlock>
+                    </StackPanel>
+                    <GridView Name="HostGrid" Width="Auto" Height="Auto" Visibility="Collapsed" Grid.Column="0">
+                        <GridView.Background>
+                            <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}"/>
+                        </GridView.Background>
+                        <GridView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel RightTapped="StackPanel_RightTapped" Padding="10 10 10 10" Margin="10,10,0,10" Width="Auto" Height="Auto">
+                                    <Button Content="{Binding _Alias}" Width="Auto" Click="Host_Click" HorizontalAlignment="Center"></Button>
+                                    <FlyoutBase.AttachedFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="Edit" Click="Edit_Click"></MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="Delete" Click="Delete_Click"></MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </FlyoutBase.AttachedFlyout>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridView.ItemTemplate>
+                    </GridView>
+                </Grid>
+            </SplitView.Content>
+        </SplitView>
     </Grid>
 </Page>
